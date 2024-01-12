@@ -1,0 +1,8 @@
+<mat-dialog-actions>
+  <button mat-raised-button class="add_user" (click)="openDialog()">Добавить пользователя</button>
+</mat-dialog-actions>
+<div class="users-list">
+  <app-user-card *ngFor="let user of userApiService.users" [users]="user" (delete)="onDeleteUser($event)"></app-user-card>
+</div>
+
+
