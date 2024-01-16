@@ -36,8 +36,7 @@ export class AddUserComponent implements OnInit{
   }
 
   onCreateClick(): void {
-    this.userService.addUser(this.userForm.value);
-    this.dialogRef.close(true);
+    this.dialogRef.close(this.userForm.value)
   }
 
 }

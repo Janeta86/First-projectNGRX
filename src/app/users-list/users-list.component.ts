@@ -47,4 +47,5 @@ export class UsersListComponent implements OnInit {
       addDialog.afterClosed().subscribe( (value) => this.userService.addUser(value));
     }
 
+
 }

@@ -1,0 +1,24 @@
+<mat-dialog-content [formGroup]="userEditForm" >
+  <mat-form-field>
+    <mat-label>name</mat-label>
+    <input matInput type="text" formControlName="name" />
+  </mat-form-field>
+  <mat-form-field>
+    <label>email</label>
+    <input matInput type="number" formControlName="email" />
+  </mat-form-field>
+  <mat-form-field>
+    <label>phone</label>
+    <input matInput type="text" formControlName="phone" />
+  </mat-form-field>
+  <mat-form-field>
+    <label>website</label>
+    <input matInput type="text" formControlName="website" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancelClick()">Отмена</button>
+  <button mat-button (click)="onEditClick()">Редактировать</button>
+</mat-dialog-actions>
+
+
