@@ -7,8 +7,9 @@ import { IUser } from "../IUser.interface";
 })
 export class UsersApiServiceService {
   private apiUrl = 'https://jsonplaceholder.typicode.com/users';
+
   constructor(private http:HttpClient) { }
-  public users: IUser[] = [];
+
   public getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.apiUrl);
   }

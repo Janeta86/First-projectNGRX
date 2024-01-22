@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { UsersApiServiceService }  from "../services/users-api-service.service";
-//import { UsersService }  from "../services/users.service";
 import { NgFor } from "@angular/common";
 import { UserCardComponent } from "../user-card/user-card.component";
 import { MatDialog } from "@angular/material/dialog";
@@ -8,6 +7,9 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from '@angular/material/button';
 import { AddUserComponent } from "../add-user/add-user.component";
 import {UsersService} from "../services/users.service";
+import {LocalStorageService} from "../services/local-storage.service";
+import {IUser} from "../IUser.interface";
+
 
 @Component({
   selector: 'app-users-list',
@@ -20,24 +22,28 @@ export class UsersListComponent implements OnInit {
   protected userApiService = inject(UsersApiServiceService);
   private dialog = inject(MatDialog)
   protected userService = inject(UsersService);
+  private localStorageService: LocalStorageService = inject(LocalStorageService)
+
   ngOnInit() {
     this.loadUsers();
   }
+
   loadUsers() {
-    this.userApiService.getUsers().subscribe({
-      next: (value) => {
-        this.userApiService.users = value;
-      },
-      error: (error) => {
-        console.error('Ошибка при загрузке пользователей:', error);
-      }
-    })
-  }
-  onDeleteUser(users: any) {
-    const index = this.userApiService.users.indexOf(users);
-    if (index !== -1) {
-      this.userApiService.users.splice(index, 1);
+    const load: IUser[] = this.localStorageService.loadUser()
+    if (load) {
+      this.userService.myUser = load;
     }
+    if (this.userService.myUser.length === 0) {
+      this.userApiService.getUsers().subscribe({
+        next: (value) => {
+          this.userService.myUser = value;
+        },
+        error: (error) => {
+          console.error('Ошибка при загрузке пользователей:', error);
+        }
+      })
+    }
+    this.localStorageService.saveUser(this.userService.myUser);
   }
 
   openDialog(){
@@ -46,6 +52,5 @@ export class UsersListComponent implements OnInit {
       });
       addDialog.afterClosed().subscribe( (value) => this.userService.addUser(value));
     }
-
 
 }

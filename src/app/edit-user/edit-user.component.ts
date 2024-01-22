@@ -1,10 +1,11 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
-import {MatDialogActions, MatDialogContent, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {UsersService} from "../services/users.service";
+import {IUser} from "../IUser.interface";
 
 @Component({
   selector: 'app-edit-user',
@@ -23,10 +24,19 @@ import {UsersService} from "../services/users.service";
 export class EditUserComponent implements OnInit{
   protected userService = inject(UsersService);
   private dialogRef: MatDialogRef<EditUserComponent> = inject(MatDialogRef);
+  public data = inject(MAT_DIALOG_DATA)
+
   userEditForm!: FormGroup;
+  @Input() userForm?: IUser;
+
   ngOnInit() {
-    this.userEditForm = this.userService.UserFormGroup();
+    if(this.data) {
+      this.userEditForm = this.userService.UserFormGroup(this.data)
+    } else {
+      this.userEditForm = this.userService.UserFormGroup()
+    }
   }
+
   onCancelClick(): void {
     this.dialogRef.close();
   }
@@ -34,6 +44,4 @@ export class EditUserComponent implements OnInit{
     console.log(this.userEditForm.value)
     this.dialogRef.close(this.userEditForm.value)
   }
-
-
 }

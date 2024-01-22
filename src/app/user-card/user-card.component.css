@@ -1,9 +1,8 @@
-
 .user-card {
   margin: 15px;
   border: 3px solid #BBBDF2;
   border-radius: 4px;
-  height: 300px;
+  height: 400px;
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
@@ -22,16 +21,17 @@ h3 {
   text-align: center;
 }
 
-.delete_user {
+.button {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
   background-color: #3876F2;
   color: #ffffff;
-  border: none;
+  border: 1px solid #000;
   border-radius: 5px;
   font-size: 16px;
-  cursor: pointer; /* Меняем курсор при наведении */
+  cursor: pointer;
   transition: 0.1s;
+  margin: 15px;
 }

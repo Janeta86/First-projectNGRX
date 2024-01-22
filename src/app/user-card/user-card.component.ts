@@ -18,17 +18,23 @@ import {UsersService} from "../services/users.service";
 export class UserCardComponent {
   private dialog = inject(MatDialog)
   protected userService = inject(UsersService);
-  @Input() users!: any;
+  @Input() myUser!: any;
   @Output() delete: EventEmitter<any> = new EventEmitter<any>();
 
   onDelete() {
-    this.delete.emit(this.users);
+    this.delete.emit(this.myUser);
   }
   public openEditDialog(){
     const editDialog = this.dialog.open(EditUserComponent, {
-      width: '350px'
+      width: '350px',
+      data: {
+        id: this.myUser.id,
+        name: this.myUser.name,
+        email: this.myUser.email,
+        phone: this.myUser.phone,
+        website: this.myUser.website
+      },
     });
-    editDialog.afterClosed().subscribe( (value) => this.userService.editUser(value));
+    editDialog.afterClosed().subscribe( (value: any) => this.userService.editUser(value));
   }
-
 }

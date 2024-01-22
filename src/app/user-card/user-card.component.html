@@ -1,9 +1,9 @@
 <div class="user-card">
-  <p>id: {{users.id}}</p>
-  <h3>Name: {{ users.name }}</h3>
-  <p>Email: {{ users.email }}</p>
-  <p>Website: {{ users.website }}</p>
-  <p>Phone: {{ users.phone }}</p>
-  <button class='delete_user' (click)="onDelete()">Удалить</button>
-  <button class='edit_user' (click)="openEditDialog()">Редактировать</button>
+  <p>id: {{ myUser.id }}</p>
+  <p>Name: {{ myUser.name }}</p>
+  <p>Email: {{ myUser.email }}</p>
+  <p>Phone: {{ myUser.phone }}</p>
+  <p>Website: {{ myUser.website }}</p>
+  <button class='button' (click)="onDelete()">Удалить</button>
+  <button class='button' (click)="openEditDialog()">Редактировать</button>
 </div>

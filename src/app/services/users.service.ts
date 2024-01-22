@@ -1,39 +1,54 @@
 import {inject, Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UsersApiServiceService} from "./users-api-service.service";
 import {IUser} from "../IUser.interface";
+import {LocalStorageService} from "./local-storage.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  private userApiService = inject(UsersApiServiceService);
+  private localStorageService: LocalStorageService = inject(LocalStorageService)
   private fb: FormBuilder = inject(FormBuilder);
+  public myUser: IUser[] = [];
 
-  public getMaxIdUsers(users?: IUser[]): string {
-    return users ?
-      String(Math.max(...users.map((user: IUser) => +user.id)) + 1)
+  public getMaxIdUsers(myUser?: IUser[]): string {
+    return myUser ?
+      String(Math.max(...myUser.map((user: IUser) => +user.id)) + 1)
       : '0';
   }
 
   public addUser(newUser: IUser): void {
-    console.log(newUser);
-    this.userApiService.users = [...this.userApiService.users, newUser];
+    this.myUser = [...this.myUser, newUser];
+    this.localStorageService.saveUser(this.myUser)
+    console.log(this.myUser)
   }
 
   public editUser(editUser: IUser): void {
-    const userIndex = this.userApiService.users.findIndex((user: IUser) => user.id === editUser.id);
+    const userIndex = this.myUser.findIndex((user: IUser) => user.id === editUser.id);
     if (userIndex !== -1) {
-      this.userApiService.users[userIndex] = editUser;
+      const updatedUsers = [...this.myUser];
+      updatedUsers[userIndex] = editUser;
+      this.myUser = updatedUsers;
     }
+    this.localStorageService.saveUser(this.myUser)
   }
-  public UserFormGroup(user?: any): FormGroup {
+
+  public UserFormGroup(userForm?: any): FormGroup {
     return this.fb.group ({
-      id: [user?.id ?? this.getMaxIdUsers(this.userApiService.users)],
-      name: [user?.name, Validators.required],
-      email: [user?.email, [Validators.email, Validators.required]],
-      phone: [user?.phone, Validators.required],
-      website: [user?.website, Validators.required],
+      id: [userForm?.id ?? this.getMaxIdUsers(this.myUser)],
+      name: [userForm?.name, Validators.required],
+      email: [userForm?.email, Validators.required],
+      phone: [userForm?.phone, Validators.required],
+      website: [userForm?.website, Validators.required],
     })
+  }
+
+  onDeleteUser(users: any) {
+    const index = this.myUser.indexOf(users);
+    if (index !== -1) {
+      this.myUser.splice(index, 1);
+    }
+    this.localStorageService.saveUser(this.myUser)
+    console.log(this.myUser)
   }
 }
