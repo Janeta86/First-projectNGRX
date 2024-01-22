@@ -36,7 +36,6 @@ export class AddUserComponent implements OnInit{
   }
 
   onCreateClick(): void {
-    console.log(this.userForm.value)
     this.dialogRef.close(this.userForm.value)
   }
 }

@@ -50,7 +50,11 @@ export class UsersListComponent implements OnInit {
       const addDialog = this.dialog.open(AddUserComponent, {
         width: '350px'
       });
-      addDialog.afterClosed().subscribe( (value) => this.userService.addUser(value));
+    addDialog.afterClosed().subscribe((value) => {
+      if (value) {
+        this.userService.addUser(value);
+      }
+    });
     }
 
 }

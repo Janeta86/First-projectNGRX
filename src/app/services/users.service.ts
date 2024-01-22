@@ -24,15 +24,16 @@ export class UsersService {
   }
 
   public editUser(editUser: IUser): void {
-    const userIndex = this.myUser.findIndex((user: IUser) => user.id === editUser.id);
-    if (userIndex !== -1) {
-      const updatedUsers = [...this.myUser];
-      updatedUsers[userIndex] = editUser;
-      this.myUser = updatedUsers;
+    if (editUser && editUser.id) {
+      const userIndex = this.myUser.findIndex((user: IUser) => user.id === editUser.id);
+      if (userIndex !== -1) {
+        const updatedUsers = [...this.myUser];
+        updatedUsers[userIndex] = editUser;
+        this.myUser = updatedUsers;
+      }
+      this.localStorageService.saveUser(this.myUser);
     }
-    this.localStorageService.saveUser(this.myUser)
   }
-
   public UserFormGroup(userForm?: any): FormGroup {
     return this.fb.group ({
       id: [userForm?.id ?? this.getMaxIdUsers(this.myUser)],
