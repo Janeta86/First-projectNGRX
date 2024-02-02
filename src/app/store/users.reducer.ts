@@ -3,7 +3,7 @@ import {IUser} from "../IUser.interface";
 import {
   addAction,
   deleteAction, deleteSuccessAction,
-  editAction, editSuccessAction,
+  editAction, editSuccessAction, loadFailedAction,
   loadingAction,
   loadingSuccessAction,
   successAddAction
@@ -29,28 +29,33 @@ export const reducer = createReducer(
     ...state,
     loading: true,
   })),
+
   on(loadingSuccessAction, (state, { myUsers }) => ({
     ...state,
     users: myUsers,
     loading: false,
   })),
-  // on(loadingFailureAction, (state, { error }) => ({
-  //   ...state,
-  //   loading: false,
-  //   error
-  // })),
+
+  on(loadFailedAction, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+
   on(addAction, (state, { newUser }) => ({
     ...state,
     users: [...state.users, newUser],
   })),
+
   on(editAction, (state, { editUser }) => {
-    const updatedUsers = state.users.map(user =>
+    const editedUsers = state.users.map(user =>
       user.id === editUser.id ? { ...user, ...editUser } : user
     );
     return {
       ...state,
-      users: updatedUsers };
+      users: editedUsers};
   }),
+
   on(deleteAction, (state, { id }) => {
     const users = state.users.filter(user => user.id !== id);
     return {

@@ -5,6 +5,7 @@ import {UsersApiServiceService} from "../services/users-api-service.service";
 import {deleteAction, editAction} from "../../store/users.actions";
 import {Store} from "@ngrx/store";
 import {FormGroup} from "@angular/forms";
+import {IUser} from "../../IUser.interface";
 
 @Component({
   selector: 'app-user-card',
@@ -17,7 +18,7 @@ export class UserCardComponent {
   private dialog = inject(MatDialog)
   private usersApiService = inject(UsersApiServiceService)
   private store: Store = inject(Store)
-  @Input() myUser!: any;
+  @Input() myUser!: IUser;
   @Output() delete: EventEmitter<any> = new EventEmitter<any>();
 
   userForm!: FormGroup;
@@ -37,7 +38,6 @@ export class UserCardComponent {
         website: this.myUser.website
       },
     });
-    editDialog.afterClosed().subscribe( (value: any) =>
-      this.store.dispatch(editAction({editUser: this.userForm.value})))
+    this.store.dispatch(editAction({editUser: this.myUser}));
   }
 }

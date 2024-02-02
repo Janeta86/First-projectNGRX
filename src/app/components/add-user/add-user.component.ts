@@ -6,7 +6,6 @@ import {MatButtonModule} from "@angular/material/button";
 import {UsersService} from "../services/users.service";
 import {MatInputModule} from "@angular/material/input";
 import {Store} from "@ngrx/store";
-import {addAction} from "../../store/users.actions";
 
 @Component({
   selector: 'app-add-user',
@@ -39,7 +38,6 @@ export class AddUserComponent implements OnInit {
   }
 
   onCreateClick(): void {
-    // this.store.dispatch(addAction({newUser: this.userForm.value}));
     this.dialogRef.close(this.userForm.value)
   }
 }

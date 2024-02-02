@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import {map, switchMap} from "rxjs/operators";
 import {
@@ -10,7 +10,6 @@ import {
   successAddAction,
 } from "./users.actions";
 import {UsersApiServiceService} from "../components/services/users-api-service.service";
-
 
 @Injectable()
 export class UsersEffect {

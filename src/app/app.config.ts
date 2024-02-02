@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     }),
     provideEffects(),
     {
-      provide:  USERS_FEATURE_KEY,
+      provide: USERS_FEATURE_KEY,
       useValue: 'users'
     }
   ],
