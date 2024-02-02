@@ -2,12 +2,14 @@ import {Injectable} from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import {map, switchMap} from "rxjs/operators";
 import {
-  addAction, deleteAction, deleteSuccessAction,
+  addAction,
+  deleteAction,
   editAction,
-  editSuccessAction, loadFailedAction,
   loadingAction,
   loadingSuccessAction,
   successAddAction,
+  successDeleteAction,
+  successEditAction,
 } from "./users.actions";
 import {UsersApiServiceService} from "../services/users-api-service.service";
 
@@ -34,7 +36,7 @@ export class UsersEffect {
       ofType(addAction),
       switchMap(({newUser})=>
         this.usersApiService.addUser(newUser).pipe(
-          map(()=>successAddAction({newUser}))
+          map((user)=>successAddAction({newUser: user}))
         )
       )
     )
@@ -45,7 +47,7 @@ export class UsersEffect {
       ofType(editAction),
       switchMap(({editUser})=>
         this.usersApiService.editUser(editUser).pipe(
-          map(()=>editSuccessAction({editUser}))
+          map(()=>successEditAction({editUser}))
         )
       )
     )
@@ -56,7 +58,7 @@ export class UsersEffect {
       ofType(deleteAction),
       switchMap(({id})=>
         this.usersApiService.deleteUser(id).pipe(
-          map(()=>deleteSuccessAction({id}))
+          map(()=>successDeleteAction({id}))
         )
       )
     )

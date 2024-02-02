@@ -4,10 +4,10 @@ import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef} from 
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {UsersService} from "../../services/users.service";
 import {IUser} from "../../IUser.interface";
 import {editAction} from "../../store/users.actions";
 import {Store} from "@ngrx/store";
+import {UsersApiServiceService} from "../../services/users-api-service.service";
 
 @Component({
   selector: 'app-edit-user',
@@ -25,7 +25,7 @@ import {Store} from "@ngrx/store";
 })
 export class EditUserComponent implements OnInit{
   private store: Store = inject(Store)
-  protected userService = inject(UsersService);
+  protected userApiService = inject(UsersApiServiceService);
   private dialogRef: MatDialogRef<EditUserComponent> = inject(MatDialogRef);
   public data = inject(MAT_DIALOG_DATA)
 
@@ -34,9 +34,9 @@ export class EditUserComponent implements OnInit{
 
   ngOnInit() {
     if(this.data) {
-      this.userEditForm = this.userService.UserFormGroup(this.data)
+      this.userEditForm = this.userApiService.UserFormGroup(this.data)
     } else {
-      this.userEditForm = this.userService.UserFormGroup()
+      this.userEditForm = this.userApiService.UserFormGroup()
     }
   }
 

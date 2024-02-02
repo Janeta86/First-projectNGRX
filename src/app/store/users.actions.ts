@@ -1,28 +1,24 @@
 import { createAction, props } from "@ngrx/store"
 import {IUser} from "../IUser.interface";
 
-export const loadingAction = createAction('[USER] loading');
+export const loadingAction = createAction('[USER] loadingAction');
 
-export const loadingSuccessAction = createAction('[USER] success download', props<{myUsers: IUser[]}>());
+export const loadingSuccessAction = createAction('[USER] loadingSuccessAction', props<{myUsers: IUser[]}>());
 
-export const loadFailedAction = createAction('[USER] failed download', props<{ error: any }>());
+export const loadFailedAction = createAction('[USER] loadFailedAction', props<{ error: any }>());
 
-export const addAction = createAction('[USER] add', props<{newUser: IUser}>());
+export const addAction = createAction('[USER] addAction', props<{newUser: IUser}>());
 
-export const successAddAction = createAction('[USER] add success', props<{newUser: IUser}>());
+export const successAddAction = createAction('[USER] successAddAction', props<{newUser: IUser}>());
 
-export const addFailedAction = createAction('[USER] failed add', props<{ error: any }>());
+export const editAction = createAction('[USER] editAction', props<{editUser: IUser}>());
 
-export const editAction = createAction('[USER] edit', props<{editUser: IUser}>());
+export const successEditAction = createAction('[USER] successEditAction', props<{editUser: IUser}>());
 
-export const editSuccessAction = createAction('[USER] edit success', props<{editUser: IUser}>());
+export const deleteAction = createAction('[USER] deleteAction', props<{ id: number }>());
 
-export const editFailedAction = createAction('[USER] failed edit', props<{ error: any }>());
+export const successDeleteAction = createAction('[USER] successDeleteAction', props<{id: number}>());
 
-export const deleteAction = createAction('[USER] delete', props<{ id: number }>());
 
-export const deleteSuccessAction = createAction('[USER] delete success ', props<{id: number}>());
-
-export const deleteFailedAction = createAction('[USER] failed delete', props<{ error: any }>());
 
 

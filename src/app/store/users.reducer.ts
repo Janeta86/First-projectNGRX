@@ -1,11 +1,9 @@
 import {createReducer, on} from "@ngrx/store";
 import {IUser} from "../IUser.interface";
 import {
-  addAction,
-  deleteAction,
-  editAction, loadFailedAction,
+  loadFailedAction,
   loadingAction,
-  loadingSuccessAction,
+  loadingSuccessAction, successAddAction, successDeleteAction, successEditAction,
 } from "./users.actions";
 
 export const USERS_FEATURE_KEY = 'users';
@@ -41,12 +39,12 @@ export const reducer = createReducer(
     error
   })),
 
-  on(addAction, (state, { newUser }) => ({
+  on(successAddAction, (state, { newUser }) => ({
     ...state,
     users: [...state.users, newUser],
   })),
 
-  on(editAction, (state, { editUser }) => {
+  on(successEditAction, (state, { editUser }) => {
     const editedUsers = state.users.map(user =>
       user.id === editUser.id ? { ...user, ...editUser } : user
     );
@@ -55,7 +53,7 @@ export const reducer = createReducer(
       users: editedUsers};
   }),
 
-  on(deleteAction, (state, { id }) => {
+  on(successDeleteAction, (state, { id }) => {
     const users = state.users.filter(user => user.id !== id);
     return {
       ...state,

@@ -3,8 +3,8 @@ import { MatDialogActions, MatDialogContent, MatDialogRef} from "@angular/materi
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
-import {UsersService} from "../../services/users.service";
 import {MatInputModule} from "@angular/material/input";
+import {UsersApiServiceService} from "../../services/users-api-service.service";
 
 @Component({
   selector: 'app-add-user',
@@ -23,12 +23,12 @@ import {MatInputModule} from "@angular/material/input";
 })
 export class AddUserComponent implements OnInit {
   private dialogRef: MatDialogRef<AddUserComponent> = inject(MatDialogRef)
-  protected userService = inject(UsersService);
+  protected userApiService = inject(UsersApiServiceService);
 
   userForm!: FormGroup;
 
   ngOnInit() {
-    this.userForm = this.userService.UserFormGroup();
+    this.userForm = this.userApiService.UserFormGroup();
   }
 
   onCancelClick(): void {
