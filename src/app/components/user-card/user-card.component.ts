@@ -1,12 +1,10 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter, inject
-} from '@angular/core';
+import {Component, Input, Output, EventEmitter, inject} from '@angular/core';
 import {EditUserComponent} from "../edit-user/edit-user.component";
 import {MatDialog} from "@angular/material/dialog";
-import {UsersService} from "../services/users.service";
+import {UsersApiServiceService} from "../services/users-api-service.service";
+import {deleteAction, editAction} from "../../store/users.actions";
+import {Store} from "@ngrx/store";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-user-card',
@@ -17,13 +15,17 @@ import {UsersService} from "../services/users.service";
 })
 export class UserCardComponent {
   private dialog = inject(MatDialog)
-  protected userService = inject(UsersService);
+  private usersApiService = inject(UsersApiServiceService)
+  private store: Store = inject(Store)
   @Input() myUser!: any;
   @Output() delete: EventEmitter<any> = new EventEmitter<any>();
 
-  onDelete() {
-    this.delete.emit(this.myUser);
+  userForm!: FormGroup;
+
+  public deleteUser() {
+    this.store.dispatch(deleteAction({id: this.myUser.id}))
   }
+
   public openEditDialog(){
     const editDialog = this.dialog.open(EditUserComponent, {
       width: '350px',
@@ -35,6 +37,7 @@ export class UserCardComponent {
         website: this.myUser.website
       },
     });
-    editDialog.afterClosed().subscribe( (value: any) => this.userService.editUser(value));
+    editDialog.afterClosed().subscribe( (value: any) =>
+      this.store.dispatch(editAction({editUser: this.userForm.value})))
   }
 }

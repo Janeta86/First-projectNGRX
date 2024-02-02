@@ -5,7 +5,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {UsersService} from "../services/users.service";
-import {IUser} from "../IUser.interface";
+import {IUser} from "../../IUser.interface";
+import {editAction} from "../../store/users.actions";
+import {Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-edit-user',
@@ -22,6 +24,7 @@ import {IUser} from "../IUser.interface";
   styleUrl: './edit-user.component.css'
 })
 export class EditUserComponent implements OnInit{
+  private store: Store = inject(Store)
   protected userService = inject(UsersService);
   private dialogRef: MatDialogRef<EditUserComponent> = inject(MatDialogRef);
   public data = inject(MAT_DIALOG_DATA)
@@ -40,8 +43,11 @@ export class EditUserComponent implements OnInit{
   onCancelClick(): void {
     this.dialogRef.close();
   }
+
   onEditClick(): void {
     console.log(this.userEditForm.value)
-    this.dialogRef.close(this.userEditForm.value)
+    this.store.dispatch(editAction({editUser: this.userEditForm.value}));
+    this.dialogRef.close()
   }
 }
+

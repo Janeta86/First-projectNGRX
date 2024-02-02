@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { UsersApiServiceService }  from "../services/users-api-service.service";
 import { NgFor } from "@angular/common";
 import { UserCardComponent } from "../user-card/user-card.component";
 import { MatDialog } from "@angular/material/dialog";
@@ -7,8 +6,10 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from '@angular/material/button';
 import { AddUserComponent } from "../add-user/add-user.component";
 import {UsersService} from "../services/users.service";
-import {LocalStorageService} from "../services/local-storage.service";
-import {IUser} from "../IUser.interface";
+import {Store} from "@ngrx/store";
+import {addAction, loadingAction} from "../../store/users.actions";
+import {UsersApiServiceService} from "../services/users-api-service.service";
+import {FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -19,31 +20,14 @@ import {IUser} from "../IUser.interface";
   styleUrl: './users-list.component.css'
 })
 export class UsersListComponent implements OnInit {
-  protected userApiService = inject(UsersApiServiceService);
+  private store: Store = inject(Store)
   private dialog = inject(MatDialog)
   protected userService = inject(UsersService);
-  private localStorageService: LocalStorageService = inject(LocalStorageService)
+  private usersApiService = inject(UsersApiServiceService)
 
-  ngOnInit() {
-    this.loadUsers();
-  }
-
-  loadUsers() {
-    const load: IUser[] = this.localStorageService.loadUser()
-    if (load) {
-      this.userService.myUser = load;
-    }
-    if (this.userService.myUser.length === 0) {
-      this.userApiService.getUsers().subscribe({
-        next: (value) => {
-          this.userService.myUser = value;
-        },
-        error: (error) => {
-          console.error('Ошибка при загрузке пользователей:', error);
-        }
-      })
-    }
-    this.localStorageService.saveUser(this.userService.myUser);
+  userForm!: FormGroup;
+  ngOnInit(): void {
+    this.store.dispatch(loadingAction());
   }
 
   openDialog(){
@@ -52,9 +36,9 @@ export class UsersListComponent implements OnInit {
       });
     addDialog.afterClosed().subscribe((value) => {
       if (value) {
-        this.userService.addUser(value);
+        this.store.dispatch(addAction({newUser: this.userForm.value}));
+        console.log(value)
       }
     });
-    }
-
+  }
 }

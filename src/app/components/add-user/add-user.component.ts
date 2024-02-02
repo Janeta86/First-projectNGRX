@@ -5,6 +5,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
 import {UsersService} from "../services/users.service";
 import {MatInputModule} from "@angular/material/input";
+import {Store} from "@ngrx/store";
+import {addAction} from "../../store/users.actions";
 
 @Component({
   selector: 'app-add-user',
@@ -21,7 +23,8 @@ import {MatInputModule} from "@angular/material/input";
   templateUrl: './add-user.component.html',
   styleUrl: './add-user.component.css'
 })
-export class AddUserComponent implements OnInit{
+export class AddUserComponent implements OnInit {
+  private readonly store = inject(Store);
   private dialogRef: MatDialogRef<AddUserComponent> = inject(MatDialogRef)
   protected userService = inject(UsersService);
 
@@ -36,6 +39,8 @@ export class AddUserComponent implements OnInit{
   }
 
   onCreateClick(): void {
+    // this.store.dispatch(addAction({newUser: this.userForm.value}));
     this.dialogRef.close(this.userForm.value)
   }
 }
+
