@@ -9,7 +9,7 @@ import {
   loadingSuccessAction,
   successAddAction,
 } from "./users.actions";
-import {UsersApiServiceService} from "../components/services/users-api-service.service";
+import {UsersApiServiceService} from "../services/users-api-service.service";
 
 @Injectable()
 export class UsersEffect {
@@ -17,7 +17,6 @@ export class UsersEffect {
     private actions$: Actions,
     private usersApiService: UsersApiServiceService,
   ) {}
-
 
   loadUsers$ = createEffect(()=>
     this.actions$.pipe(

@@ -3,9 +3,8 @@ import { MatDialogActions, MatDialogContent, MatDialogRef} from "@angular/materi
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
-import {UsersService} from "../services/users.service";
+import {UsersService} from "../../services/users.service";
 import {MatInputModule} from "@angular/material/input";
-import {Store} from "@ngrx/store";
 
 @Component({
   selector: 'app-add-user',
@@ -23,7 +22,6 @@ import {Store} from "@ngrx/store";
   styleUrl: './add-user.component.css'
 })
 export class AddUserComponent implements OnInit {
-  private readonly store = inject(Store);
   private dialogRef: MatDialogRef<AddUserComponent> = inject(MatDialogRef)
   protected userService = inject(UsersService);
 

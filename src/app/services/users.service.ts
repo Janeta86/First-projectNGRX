@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {IUser} from "../../IUser.interface";
+import {IUser} from "../IUser.interface";
 
 @Injectable({
   providedIn: 'root'

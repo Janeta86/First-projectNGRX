@@ -2,11 +2,10 @@ import {createReducer, on} from "@ngrx/store";
 import {IUser} from "../IUser.interface";
 import {
   addAction,
-  deleteAction, deleteSuccessAction,
-  editAction, editSuccessAction, loadFailedAction,
+  deleteAction,
+  editAction, loadFailedAction,
   loadingAction,
   loadingSuccessAction,
-  successAddAction
 } from "./users.actions";
 
 export const USERS_FEATURE_KEY = 'users';

@@ -1,10 +1,8 @@
 import {Component, Input, Output, EventEmitter, inject} from '@angular/core';
 import {EditUserComponent} from "../edit-user/edit-user.component";
 import {MatDialog} from "@angular/material/dialog";
-import {UsersApiServiceService} from "../services/users-api-service.service";
 import {deleteAction, editAction} from "../../store/users.actions";
 import {Store} from "@ngrx/store";
-import {FormGroup} from "@angular/forms";
 import {IUser} from "../../IUser.interface";
 
 @Component({
@@ -16,18 +14,16 @@ import {IUser} from "../../IUser.interface";
 })
 export class UserCardComponent {
   private dialog = inject(MatDialog)
-  private usersApiService = inject(UsersApiServiceService)
   private store: Store = inject(Store)
+
   @Input() myUser!: IUser;
   @Output() delete: EventEmitter<any> = new EventEmitter<any>();
-
-  userForm!: FormGroup;
 
   public deleteUser() {
     this.store.dispatch(deleteAction({id: this.myUser.id}))
   }
 
-  public openEditDialog(){
+  public openEditDialog() {
     const editDialog = this.dialog.open(EditUserComponent, {
       width: '350px',
       data: {
@@ -38,6 +34,10 @@ export class UserCardComponent {
         website: this.myUser.website
       },
     });
-    this.store.dispatch(editAction({editUser: this.myUser}));
+    editDialog.afterClosed().pipe().subscribe((value: any) => {
+      if (value) {
+        this.store.dispatch(editAction({editUser: this.myUser}))
+      }
+    });
   }
 }
