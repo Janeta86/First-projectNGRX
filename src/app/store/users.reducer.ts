@@ -1,9 +1,12 @@
 import {createReducer, on} from "@ngrx/store";
-import {IUser} from "../IUser.interface";
+import {IUser} from "../user.interface";
 import {
-  loadFailedAction,
-  loadingAction,
-  loadingSuccessAction, successAddAction, successDeleteAction, successEditAction,
+  loadFailedUserAction,
+  loadingSuccessUserAction,
+  loadingUserAction,
+  successAddUserAction,
+  successDeleteUserAction,
+  successEditUserAction,
 } from "./users.actions";
 
 export const USERS_FEATURE_KEY = 'users';
@@ -22,29 +25,29 @@ export const initialState: userState = {
 
 export const reducer = createReducer(
   initialState,
-  on(loadingAction, (state) => ({
+  on(loadingUserAction, (state) => ({
     ...state,
     loading: true,
   })),
 
-  on(loadingSuccessAction, (state, { myUsers }) => ({
+  on(loadingSuccessUserAction, (state, { myUsers }) => ({
     ...state,
     users: myUsers,
     loading: false,
   })),
 
-  on(loadFailedAction, (state, { error }) => ({
+  on(loadFailedUserAction, (state, { error }) => ({
     ...state,
     loading: false,
     error
   })),
 
-  on(successAddAction, (state, { newUser }) => ({
+  on(successAddUserAction, (state, { newUser }) => ({
     ...state,
     users: [...state.users, newUser],
   })),
 
-  on(successEditAction, (state, { editUser }) => {
+  on(successEditUserAction, (state, { editUser }) => {
     const editedUsers = state.users.map(user =>
       user.id === editUser.id ? { ...user, ...editUser } : user
     );
@@ -53,7 +56,7 @@ export const reducer = createReducer(
       users: editedUsers};
   }),
 
-  on(successDeleteAction, (state, { id }) => {
+  on(successDeleteUserAction, (state, { id }) => {
     const users = state.users.filter(user => user.id !== id);
     return {
       ...state,

@@ -1,9 +1,9 @@
 import {Component, Input, Output, EventEmitter, inject} from '@angular/core';
 import {EditUserComponent} from "../edit-user/edit-user.component";
 import {MatDialog} from "@angular/material/dialog";
-import {deleteAction, editAction} from "../../store/users.actions";
+import {deleteUserAction, editUserAction} from "../../store/users.actions";
 import {Store} from "@ngrx/store";
-import {IUser} from "../../IUser.interface";
+import {IUser} from "../../user.interface";
 
 @Component({
   selector: 'app-user-card',
@@ -13,14 +13,14 @@ import {IUser} from "../../IUser.interface";
   styleUrl: './user-card.component.css'
 })
 export class UserCardComponent {
-  private dialog = inject(MatDialog)
-  private store: Store = inject(Store)
-
   @Input() myUser!: IUser;
   @Output() delete: EventEmitter<any> = new EventEmitter<any>();
 
+  private dialog = inject(MatDialog)
+  private store: Store = inject(Store)
+
   public deleteUser() {
-    this.store.dispatch(deleteAction({id: this.myUser.id}))
+    this.store.dispatch(deleteUserAction({id: this.myUser.id}))
   }
 
   public openEditDialog() {
@@ -36,7 +36,7 @@ export class UserCardComponent {
     });
     editDialog.afterClosed().pipe().subscribe((value: any) => {
       if (value) {
-        this.store.dispatch(editAction({editUser: this.myUser}))
+        this.store.dispatch(editUserAction({editUser: this.myUser}))
       }
     });
   }

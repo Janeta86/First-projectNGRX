@@ -1,23 +1,23 @@
 import { createAction, props } from "@ngrx/store"
-import {IUser} from "../IUser.interface";
+import {IUser} from "../user.interface";
 
-export const loadingAction = createAction('[USER] loadingAction');
+export const loadingUserAction = createAction('[USER] loadingUserAction');
 
-export const loadingSuccessAction = createAction('[USER] loadingSuccessAction', props<{myUsers: IUser[]}>());
+export const loadingSuccessUserAction = createAction('[USER] loadingSuccessUserAction', props<{myUsers: IUser[]}>());
 
-export const loadFailedAction = createAction('[USER] loadFailedAction', props<{ error: any }>());
+export const loadFailedUserAction = createAction('[USER] loadFailedUserAction', props<{ error: any }>());
 
-export const addAction = createAction('[USER] addAction', props<{newUser: IUser}>());
+export const addUserAction = createAction('[USER] addUserAction', props<{newUser: IUser}>());
 
-export const successAddAction = createAction('[USER] successAddAction', props<{newUser: IUser}>());
+export const successAddUserAction = createAction('[USER] successAddUserAction', props<{newUser: IUser}>());
 
-export const editAction = createAction('[USER] editAction', props<{editUser: IUser}>());
+export const editUserAction = createAction('[USER] editUserAction', props<{editUser: IUser}>());
 
-export const successEditAction = createAction('[USER] successEditAction', props<{editUser: IUser}>());
+export const successEditUserAction = createAction('[USER] successEditUserAction', props<{editUser: IUser}>());
 
-export const deleteAction = createAction('[USER] deleteAction', props<{ id: number }>());
+export const deleteUserAction = createAction('[USER] deleteUserAction', props<{ id: number }>());
 
-export const successDeleteAction = createAction('[USER] successDeleteAction', props<{id: number}>());
+export const successDeleteUserAction = createAction('[USER] successDeleteUserAction', props<{id: number}>());
 
 
 

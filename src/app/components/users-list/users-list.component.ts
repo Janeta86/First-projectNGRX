@@ -1,15 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
-import {AsyncPipe, NgFor} from "@angular/common";
+import { AsyncPipe, NgFor} from "@angular/common";
 import { UserCardComponent } from "../user-card/user-card.component";
 import { MatDialog } from "@angular/material/dialog";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from '@angular/material/button';
 import { AddUserComponent } from "../add-user/add-user.component";
-import {Store} from "@ngrx/store";
-import {addAction, loadingAction} from "../../store/users.actions";
-import {IUser} from "../../IUser.interface";
-import {selectUsers} from "../../store/users.selectors";
-
+import { Store} from "@ngrx/store";
+import { addUserAction, loadingUserAction} from "../../store/users.actions";
+import { IUser} from "../../user.interface";
+import { selectUsers} from "../../store/users.selectors";
 
 @Component({
   selector: 'app-users-list',
@@ -25,11 +24,11 @@ export class UsersListComponent implements OnInit {
   users$ = this.store.select(selectUsers);
 
   ngOnInit(): void {
-    this.store.dispatch(loadingAction());
+    this.store.dispatch(loadingUserAction());
   }
 
   addUsers(newUser: IUser) {
-    this.store.dispatch(addAction({newUser: newUser}));
+    this.store.dispatch(addUserAction({newUser: newUser}));
   }
 
   openDialog() {

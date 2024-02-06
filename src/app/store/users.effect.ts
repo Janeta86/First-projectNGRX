@@ -2,30 +2,30 @@ import {Injectable} from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import {map, switchMap} from "rxjs/operators";
 import {
-  addAction,
-  deleteAction,
-  editAction,
-  loadingAction,
-  loadingSuccessAction,
-  successAddAction,
-  successDeleteAction,
-  successEditAction,
+  addUserAction,
+  deleteUserAction,
+  editUserAction,
+  loadingSuccessUserAction,
+  loadingUserAction,
+  successAddUserAction,
+  successDeleteUserAction,
+  successEditUserAction
 } from "./users.actions";
-import {UsersApiServiceService} from "../services/users-api-service.service";
+import {UsersApiService} from "../services/users-api.service";
 
 @Injectable()
 export class UsersEffect {
   constructor(
     private actions$: Actions,
-    private usersApiService: UsersApiServiceService,
+    private usersApiService: UsersApiService,
   ) {}
 
   loadUsers$ = createEffect(()=>
     this.actions$.pipe(
-      ofType(loadingAction),
+      ofType(loadingUserAction),
       switchMap(()=>
         this.usersApiService.getUsers().pipe(
-          map((val)=>loadingSuccessAction({myUsers: val})),
+          map((val)=>loadingSuccessUserAction({myUsers: val})),
         )
       )
     )
@@ -33,10 +33,10 @@ export class UsersEffect {
 
   addUsers$ = createEffect(()=>
     this.actions$.pipe(
-      ofType(addAction),
+      ofType(addUserAction),
       switchMap(({newUser})=>
         this.usersApiService.addUser(newUser).pipe(
-          map((user)=>successAddAction({newUser: user}))
+          map((user)=>successAddUserAction({newUser: user}))
         )
       )
     )
@@ -44,10 +44,10 @@ export class UsersEffect {
 
   editUsers$ = createEffect(()=>
     this.actions$.pipe(
-      ofType(editAction),
+      ofType(editUserAction),
       switchMap(({editUser})=>
         this.usersApiService.editUser(editUser).pipe(
-          map(()=>successEditAction({editUser}))
+          map(()=>successEditUserAction({editUser}))
         )
       )
     )
@@ -55,10 +55,10 @@ export class UsersEffect {
 
   deleteUsers$ = createEffect(()=>
     this.actions$.pipe(
-      ofType(deleteAction),
+      ofType(deleteUserAction),
       switchMap(({id})=>
         this.usersApiService.deleteUser(id).pipe(
-          map(()=>successDeleteAction({id}))
+          map(()=>successDeleteUserAction({id}))
         )
       )
     )
